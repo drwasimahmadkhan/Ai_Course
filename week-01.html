@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AI Tutorial — Chapters 1 & 2 | BSCS</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style type="text/tailwindcss">
+    body { @apply bg-slate-50 text-slate-800 font-['Nunito'] overflow-hidden h-screen antialiased; }
+  .topnav { @apply fixed top-0 left-0 right-0 h-14 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-5 z-50; }
+  .tnav-title h1 { @apply text-lg font-extrabold text-slate-900 leading-none tracking-tight; }
+  .tnav-title p { @apply text-xs text-slate-500 font-bold mt-1 uppercase tracking-wider; }
+  .tnav-instructor { @apply text-sm font-bold text-slate-700 hidden md:block; }
+  .tnav-btn { @apply bg-white border border-slate-200 rounded-lg px-4 py-2 text-sm font-bold text-slate-700 cursor-pointer transition flex items-center gap-2 hover:bg-slate-50 hover:shadow-sm; }
+  
+  .slides-container { @apply fixed top-14 left-0 right-0 bottom-14 overflow-hidden bg-slate-50/50; }
+  .slides { @apply flex w-full h-full transition-transform duration-500 ease-out; }
+  .slide { @apply w-full h-full shrink-0 overflow-y-auto px-6 py-8 md:px-12 md:py-10; }
+  .slide h1 { @apply text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight leading-tight; }
+  .slide h2 { @apply text-2xl md:text-3xl font-extrabold text-slate-800 mt-10 mb-5 tracking-tight; }
+  .slide h3 { @apply text-xl font-bold text-slate-700 mt-6 mb-3; }
+  .slide p { @apply text-base text-slate-600 leading-relaxed mb-4; }
+  .slide ul { @apply list-disc list-outside pl-6 space-y-2 mb-6 text-slate-600; }
+  
+  .box { @apply rounded-2xl p-5 my-5 border-l-4 shadow-sm bg-white; }
+  .box.blue { @apply border-blue-500 bg-blue-50/50; }
+  .box.teal { @apply border-teal-500 bg-teal-50/50; }
+  .box.coral { @apply border-rose-500 bg-rose-50/50; }
+  .box.amber { @apply border-amber-500 bg-amber-50/50; }
+  .box.purple { @apply border-purple-500 bg-purple-50/50; }
+  .box.green { @apply border-emerald-500 bg-emerald-50/50; }
+  .blabel { @apply text-xs font-black tracking-widest uppercase mb-2; }
+  .box.blue .blabel { @apply text-blue-600; }
+  .box.teal .blabel { @apply text-teal-600; }
+  .box.coral .blabel { @apply text-rose-600; }
+  .box.amber .blabel { @apply text-amber-600; }
+  .box.purple .blabel { @apply text-purple-600; }
+  .box.green .blabel { @apply text-emerald-600; }
+  
+  .cgrid { @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-6; }
+  .card { @apply bg-white border border-slate-100 rounded-2xl p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md; }
+  .cico { @apply text-3xl mb-3 block; }
+  .card h3 { @apply text-lg font-bold text-slate-900 mb-2; }
+  .card p { @apply text-sm text-slate-500 leading-relaxed max-w-full break-words; }
+  
+  .tbl { @apply w-full border-collapse my-6 text-sm rounded-xl overflow-hidden shadow-sm border border-slate-200 bg-white; }
+  .tbl th { @apply bg-slate-900 text-white text-xs font-bold uppercase tracking-wider px-4 py-3 text-left; }
+  .tbl td { @apply px-4 py-3 border-b border-slate-100 text-slate-600 align-top; }
+  
+  .tag { @apply inline-block text-[10px] font-bold px-2.5 py-1 rounded-md mx-0.5 uppercase tracking-wider; }
+  .tag.b { @apply bg-blue-100 text-blue-700; }
+  .tag.t { @apply bg-teal-100 text-teal-700; }
+  .tag.c { @apply bg-rose-100 text-rose-700; }
+  .tag.p { @apply bg-purple-100 text-purple-700; }
+  .tag.g { @apply bg-emerald-100 text-emerald-700; }
+  .tag.a { @apply bg-amber-100 text-amber-700; }
+  
+  .botnav { @apply fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-slate-200 flex items-center justify-between px-8 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]; }
+  .bn-btn { @apply bg-white border border-slate-200 rounded-xl px-6 py-2.5 text-sm font-bold text-slate-700 cursor-pointer transition-all hover:bg-slate-50 hover:border-slate-300 hover:shadow-sm active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100; }
+  .bn-progress { @apply text-sm font-black text-slate-500 tracking-widest tabular-nums; }
+
+
+  .dlist { @apply flex flex-col gap-3 my-4; }
+  .ditem { @apply flex flex-col sm:flex-row gap-2 sm:gap-4 bg-white border border-slate-100 rounded-xl px-5 py-4 shadow-sm; }
+  .dlabel { @apply font-bold text-sm min-w-[160px] shrink-0; }
+  .ddesc { @apply text-sm text-slate-600 leading-relaxed; }
+
+  .cover { @apply flex flex-col justify-center items-center text-center p-8 rounded-3xl min-h-[calc(100vh-10rem)] bg-gradient-to-br from-indigo-50/80 via-white to-cyan-50/80 shadow-sm border border-slate-100 mb-6; }
+  .cbadge { @apply bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-black uppercase tracking-widest px-6 py-2.5 rounded-full mb-6 shadow-md; }
+  .cover h1 { @apply text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight leading-tight max-w-4xl mx-auto; }
+  .cover h2 { @apply text-xl md:text-2xl font-bold text-slate-600 mb-8 max-w-3xl mx-auto italic; }
+  .cover-meta { @apply text-sm text-slate-400 mt-8 font-bold uppercase tracking-wider; }
+
+  /* Additional components found in week-01 */
+  .aflabel { @apply text-xs font-black text-slate-400 uppercase tracking-wider mb-4; }
+  .aflow { @apply bg-white border-2 border-blue-200 rounded-2xl p-6 my-6 text-center shadow-sm; }
+  .arow { @apply flex items-center justify-center gap-3 flex-wrap; }
+  .ablock { @apply bg-blue-50 border border-blue-200 rounded-xl px-4 py-2 text-sm font-bold text-slate-800 shadow-sm; }
+  .aarr { @apply text-2xl text-blue-400 font-bold; }
+  
+  .qitem { @apply bg-white border border-slate-200 rounded-2xl p-6 my-4 shadow-sm; }
+  .qq { @apply text-lg font-bold text-slate-900 mb-4; }
+  .qopts { @apply flex flex-col gap-2; }
+  .qopt { @apply p-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-700 cursor-pointer transition hover:border-blue-400 hover:bg-blue-50 text-left; }
+  .qopt.correct { @apply bg-emerald-50 border-emerald-400 text-emerald-700; }
+  .qopt.wrong { @apply bg-rose-50 border-rose-400 text-rose-700; }
+  
+  .link-box { @apply flex sm:items-center flex-col sm:flex-row gap-4 bg-slate-900 rounded-2xl p-6 my-6 shadow-md; }
+  .link-icon { @apply text-4xl; }
+  .link-title { @apply text-lg font-bold text-white mb-1; }
+  .link-url { @apply text-cyan-400 text-sm flex-wrap break-all hover:underline font-mono; }
+
+  /* Progress bar */
+  #pbar { @apply fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-300 rounded-r z-[1001]; }
+  
+  /* Slide scrollbar */
+  ::webkit-scrollbar { width: 8px; }
+  ::webkit-scrollbar-track { background: transparent; }
+  ::webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+</style>
+</head>
+
+<body>
+
+  <div id="pbar" style="width:0%"></div>
+
+  <div class="topnav">
+    <div class="tnav-title">
+      <h1>📘 AI Tutorial — Ch. 1 & 2</h1>
+      <p>Chapters 1 &amp; 2 — Week 1</p>
+    </div>
+    <div class="tnav-instructor">Taught by: <strong>Dr. Wasim Ahmad Khan</strong></div>
+    <div class="tnav-controls">
+      <button class="tnav-btn" id="homeBtn">← Back to Home</button>
+    </div>
+  </div>
+
+  <div class="slides-container">
+    <div class="slides" id="slides">
+
+      <!-- ▓▓ SLIDE 1 — COVER ▓▓ -->
+      <div class="slide active" id="s0">
+        <div class="inner">
+          <div class="cover">
+            <div class="cbadge">📘 BSCS Easy Study Guide</div>
+            <h1>Artificial<br><em>Intelligence</em></h1>
+            <p class="csub">Russell & Norvig · 4th Edition<br>Complete Tutorial for Chapters 1 & 2</p>
+            <div class="cchips">
+              <div class="cchip">📖 Chapter 1: Introduction · Pages 19–53</div>
+              <div class="cchip">🤖 Chapter 2: Intelligent Agents · Pages 54–78</div>
+              <div class="cchip">⏱ Master Both in 60 Minutes</div>
+              <div class="cchip">15 Slides · Quiz · Assignments</div>
+            </div>
+            <div class="box blue" style="max-width:520px;text-align:left">
+              <div class="blabel">The One Core Idea of This Entire Book</div>
+              <p><strong>AI = Building agents that perceive their environment and take actions to achieve goals as well
+                  as
+                  possible.</strong> Every concept in both chapters builds on this single idea.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 2 — WHAT IS AI ▓▓ -->
+      <div class="slide" id="s1">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag">Chapter 1 · Section 1.1 · Page 19</div>
+            <h1>What is <em>Artificial Intelligence?</em></h1>
+            <p class="ssub">4 different definitions — organized into one table</p>
+          </div>
+
+          <p>AI doesn't have one definition. The book presents <strong>4 perspectives</strong> based on two questions:
+            are
+            we focused on <strong>Thinking or Acting</strong>? And do we compare to <strong>Humans or to a Rational
+              ideal</strong>?</p>
+
+          <table class="tbl">
+            <tr>
+              <th></th>
+              <th>🧠 THINKING (internal process)</th>
+              <th>⚡ ACTING (external behavior)</th>
+            </tr>
+            <tr>
+              <td><strong>👤 Human-like</strong></td>
+              <td><strong>Think like humans</strong><br><small>Cognitive Science approach — model the human mind using
+                  psychology and introspection</small></td>
+              <td><strong>Act like humans</strong><br><small>The Turing Test — behave so convincingly that a human judge
+                  can't tell the difference</small></td>
+            </tr>
+            <tr>
+              <td><strong>🎯 Rational (ideal)</strong></td>
+              <td><strong>Think rationally</strong><br><small>Logic-based — use formal mathematical inference like
+                  theorem-provers to reason perfectly</small></td>
+              <td><strong>Act rationally ✅</strong><br><small style="color:var(--green)"><strong>THE BOOK'S
+                    APPROACH</strong> — do the best possible action to maximize goals. Mathematically precise and
+                  implementable</small></td>
+            </tr>
+          </table>
+
+          <div class="box green">
+            <div class="blabel">✅ Why "Acting Rationally" Wins</div>
+            <p>Humans are often irrational — we have biases, emotions, and make mistakes. A rational approach is
+              <strong>mathematically precise</strong>, fits naturally with the agent model (perceive → reason → act),
+              and
+              gives a clear success criterion: maximize the performance measure.
+            </p>
+          </div>
+
+          <h2>Core Abilities Every AI Agent Needs</h2>
+          <div class="cgrid">
+            <div class="card"><span class="cico">👁</span>
+              <h3>Perception</h3>
+              <p>Receive sensory input — vision, speech, text, sensor readings</p>
+            </div>
+            <div class="card"><span class="cico">🔍</span>
+              <h3>Reasoning</h3>
+              <p>Draw conclusions, solve problems, make logical inferences</p>
+            </div>
+            <div class="card"><span class="cico">📚</span>
+              <h3>Learning</h3>
+              <p>Improve from data and past experience automatically</p>
+            </div>
+            <div class="card"><span class="cico">🗺</span>
+              <h3>Planning & Action</h3>
+              <p>Decide what to do next and actually execute the plan</p>
+            </div>
+            <div class="card"><span class="cico">💬</span>
+              <h3>Communication</h3>
+              <p>Natural language — dialogue with humans and other agents</p>
+            </div>
+            <div class="card"><span class="cico">🔄</span>
+              <h3>Adaptation</h3>
+              <p>Adjust behavior in new or changing situations</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 3 — TURING TEST ▓▓ -->
+      <div class="slide" id="s2">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag">Chapter 1 · Section 1.1 · Page 20</div>
+            <h1>The <em>Turing Test</em></h1>
+            <p class="ssub">Alan Turing, 1950 — the most famous intelligence test ever proposed</p>
+          </div>
+
+          <div class="box blue">
+            <div class="blabel">Definition</div>
+            <p>A computer <strong>passes the Turing Test</strong> if a human examiner, communicating only by typed
+              messages, <strong>cannot tell</strong> whether they are talking to a human or a machine — even after
+              extended conversation.</p>
+          </div>
+
+          <h2>What Skills Are Required to Pass?</h2>
+          <div class="cgrid">
+            <div class="card"><span class="cico">💬</span>
+              <h3>Natural Language Processing</h3>
+              <p>Understand and generate human language — grammar, meaning, context, humour</p>
+            </div>
+            <div class="card"><span class="cico">📦</span>
+              <h3>Knowledge Representation</h3>
+              <p>Store and organize vast facts about the world to answer any question</p>
+            </div>
+            <div class="card"><span class="cico">🧮</span>
+              <h3>Automated Reasoning</h3>
+              <p>Draw conclusions and answer new questions from stored knowledge logically</p>
+            </div>
+            <div class="card"><span class="cico">🧪</span>
+              <h3>Machine Learning</h3>
+              <p>Adapt to new topics and learn from conversation history in real time</p>
+            </div>
+          </div>
+
+          <h2>The Total Turing Test (Extended Version)</h2>
+          <p>A harder version adds a <strong>video link</strong> and the ability to pass objects through a hatch. This
+            also requires:</p>
+          <div class="dlist">
+            <div class="ditem">
+              <div class="dlabel">Computer Vision</div>
+              <div class="ddesc">Recognize objects, faces, and scenes shown in video feed</div>
+            </div>
+            <div class="ditem">
+              <div class="dlabel">Robotics</div>
+              <div class="ddesc">Manipulate physical objects, pick things up, respond physically</div>
+            </div>
+          </div>
+
+          <div class="box amber">
+            <div class="blabel">📌 Real Example Today</div>
+            <p>You chat with someone online for 15 minutes. After the conversation you genuinely don't know if it was a
+              human or a program. <strong>That program passed the Turing Test.</strong> Modern LLMs like ChatGPT and
+              Claude come very close to this standard today.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 4 — FOUNDATIONS ▓▓ -->
+      <div class="slide" id="s3">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag">Chapter 1 · Section 1.2 · Page 23</div>
+            <h1>Foundations of <em>AI</em></h1>
+            <p class="ssub">AI borrowed ideas from 8 different scientific disciplines</p>
+          </div>
+
+          <p>AI is truly <strong>interdisciplinary</strong>. It stands on the shoulders of giants from many fields:</p>
+
+          <div class="dlist">
+            <div class="ditem">
+              <div class="dlabel">📐 Philosophy</div>
+              <div class="ddesc"><strong>Can machines think?</strong> Aristotle's formal logic → rules for correct
+                reasoning. Epistemology: what is knowledge? What are the limits of human reason?</div>
+            </div>
+            <div class="ditem">
+              <div class="dlabel">📊 Mathematics</div>
+              <div class="ddesc"><strong>Formal logic, probability theory, algorithms.</strong> Gives tools to make
+                precise, provable statements and handle uncertainty mathematically.</div>
+            </div>
+            <div class="ditem">
+              <div class="dlabel">📈 Economics</div>
+              <div class="ddesc"><strong>Utility functions, decision theory, game theory.</strong> How do you make the
+                best decision to maximize reward? How do agents interact strategically?</div>
+            </div>
+            <div class="ditem">
+              <div class="dlabel">🧬 Neuroscience</div>
+              <div class="ddesc"><strong>How does the biological brain work?</strong> Neural connections and learning
+                mechanisms directly inspired artificial neural networks and deep learning.</div>
+            </div>
+            <div class="ditem">
+              <div class="dlabel">🧠 Psychology</div>
+              <div class="ddesc"><strong>Human and animal cognition.</strong> Studies memory, decision-making,
+                problem-solving — all key areas that AI tries to replicate or improve on.</div>
+            </div>
+            <div class="ditem">
+              <div class="dlabel">💻 Computer Science</div>
+              <div class="ddesc"><strong>Hardware and algorithms.</strong> Provides the actual computational tools, data
+                structures, and architectures needed to build and run AI systems.</div>
+            </div>
+            <div class="ditem">
+              <div class="dlabel">🌐 Linguistics</div>
+              <div class="ddesc"><strong>Structure of language.</strong> Grammar, semantics, pragmatics — the basis of
+                Natural Language Processing. How do words carry meaning?</div>
+            </div>
+            <div class="ditem">
+              <div class="dlabel">⚙️ Control Theory</div>
+              <div class="ddesc"><strong>Automated self-regulation.</strong> Feedback loops that keep systems stable —
+                thermostats, airplane autopilot, industrial controllers.</div>
+            </div>
+          </div>
+
+          <div class="box purple">
+            <div class="blabel">💡 Key Takeaway</div>
+            <p>AI is not just computer science. That's why it's both <em>powerful</em> and <em>complex</em> — it
+              combines
+              the deepest ideas from philosophy, math, biology, and engineering all at once.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 5 — HISTORY ▓▓ -->
+      <div class="slide" id="s4">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag">Chapter 1 · Section 1.3 · Page 35</div>
+            <h1>History of <em>Artificial Intelligence</em></h1>
+            <p class="ssub">70+ years of breakthroughs, crashes, and revivals — know the key phases</p>
+          </div>
+
+          <div class="tline">
+            <div class="tlitem">
+              <div class="tldot"></div>
+              <div class="tlyear">1943 – 1950</div>
+              <div class="tltitle">The Birth of the Idea</div>
+              <div class="tldesc">McCulloch & Pitts create the first mathematical model of a neuron (1943). Alan Turing
+                writes "Computing Machinery and Intelligence" and proposes the Turing Test (1950).</div>
+            </div>
+            <div class="tlitem">
+              <div class="tldot g"></div>
+              <div class="tlyear">1956</div>
+              <div class="tltitle">AI is Born — Dartmouth Conference</div>
+              <div class="tldesc">John McCarthy coins the term "Artificial Intelligence." A 2-month summer workshop at
+                Dartmouth College officially launches AI as an academic field. Scientists are extremely optimistic.
+              </div>
+            </div>
+            <div class="tlitem">
+              <div class="tldot g"></div>
+              <div class="tlyear">1956 – 1969</div>
+              <div class="tltitle">Golden Age — Early Enthusiasm</div>
+              <div class="tldesc">Programs like LOGIC THEORIST and GPS (General Problem Solver) are built. First chatbot
+                ELIZA created (1966). Scientists promise human-level AI within 20 years. Massive government funding.
+              </div>
+            </div>
+            <div class="tlitem">
+              <div class="tldot r"></div>
+              <div class="tlyear">1966 – 1973</div>
+              <div class="tltitle">⚠️ First AI Winter</div>
+              <div class="tldesc">Programs that worked on toy problems failed completely on real-world tasks. The
+                Lighthill Report (UK, 1973) harshly criticized AI research. Funding was slashed dramatically.</div>
+            </div>
+            <div class="tlitem">
+              <div class="tldot g"></div>
+              <div class="tlyear">1980 – 1987</div>
+              <div class="tltitle">Expert Systems Boom</div>
+              <div class="tldesc">AI with thousands of IF-THEN rules from human experts. MYCIN diagnoses blood
+                infections.
+                XCON configures computers. AI becomes commercially useful for the first time. $1B+ industry.</div>
+            </div>
+            <div class="tlitem">
+              <div class="tldot r"></div>
+              <div class="tlyear">1987 – 1993</div>
+              <div class="tltitle">⚠️ Second AI Winter</div>
+              <div class="tldesc">Expert systems were expensive, brittle, and hard to maintain. The "Lisp machine"
+                hardware market collapsed. Funding cut again. Deep skepticism about AI's future.</div>
+            </div>
+            <div class="tlitem">
+              <div class="tldot g"></div>
+              <div class="tlyear">1993 – 2010</div>
+              <div class="tltitle">AI Becomes a Science</div>
+              <div class="tldesc">Statistical approaches and probabilistic models take over. Deep Blue beats chess
+                champion Kasparov (1997). Bayesian networks, SVMs, and data-driven approaches dominate. Roomba released
+                (2002).</div>
+            </div>
+            <div class="tlitem">
+              <div class="tldot p"></div>
+              <div class="tlyear">2012 – Now</div>
+              <div class="tltitle">Deep Learning Revolution 🚀</div>
+              <div class="tldesc">AlexNet wins ImageNet image recognition (2012). AlphaGo beats world Go champion
+                (2016).
+                GPT, BERT, transformers arrive (2018–20). ChatGPT launches (2022). AI is now in every part of modern
+                life.
+              </div>
+            </div>
+          </div>
+
+          <div class="box amber">
+            <div class="blabel">📌 Exam Tip</div>
+            <p>Remember the <strong>two AI Winters</strong> (1966–73 and 1987–93) and what caused them: overpromising +
+              systems failing on real-world complexity. Know 3–4 key phases — not every exact date.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 6 — STATE OF ART + APPLICATIONS ▓▓ -->
+      <div class="slide" id="s5">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag teal">Chapter 1 · Section 1.4 · Page 45</div>
+            <h1>State of the Art &amp; <em>Real Applications</em></h1>
+            <p class="ssub">What AI can do today — systems you already use daily</p>
+          </div>
+
+          <div class="cgrid">
+            <div class="card"><span class="cico">🔍</span>
+              <h3>Search & Recommendation</h3>
+              <p>Google Search, YouTube, Netflix, Amazon, TikTok algorithm — all powered by AI ranking systems</p>
+            </div>
+            <div class="card"><span class="cico">💬</span>
+              <h3>Language & Speech</h3>
+              <p>Siri, Alexa, Google Translate, ChatGPT — language models that read, write, listen, and speak</p>
+            </div>
+            <div class="card"><span class="cico">♟️</span>
+              <h3>Games</h3>
+              <p>Beats world champions in Chess, Go, StarCraft II, Dota 2, and Atari games with superhuman performance
+              </p>
+            </div>
+            <div class="card"><span class="cico">🚗</span>
+              <h3>Self-Driving Cars</h3>
+              <p>Waymo, Tesla Autopilot — AI perceives roads, plans routes, avoids obstacles, drives autonomously</p>
+            </div>
+            <div class="card"><span class="cico">🩺</span>
+              <h3>Medical Diagnosis</h3>
+              <p>AI detects cancer in X-rays, CT scans, and retinal images — accuracy matches or beats specialist
+                doctors
+              </p>
+            </div>
+            <div class="card"><span class="cico">💳</span>
+              <h3>Finance</h3>
+              <p>Fraud detection, algorithmic trading, credit scoring, loan approval — AI processes millions of
+                transactions per second</p>
+            </div>
+            <div class="card"><span class="cico">🤖</span>
+              <h3>Robotics</h3>
+              <p>Boston Dynamics robots walk, run, do backflips. NASA's Perseverance Rover drives autonomously on Mars
+              </p>
+            </div>
+            <div class="card"><span class="cico">🎨</span>
+              <h3>Creative AI</h3>
+              <p>Midjourney & DALL-E generate images, AI composes music, writes code, creates videos from text
+                descriptions</p>
+            </div>
+          </div>
+
+          <div class="box coral">
+            <div class="blabel">⚠️ Critical Concept: Narrow AI vs General AI (AGI)</div>
+            <p>ALL current AI is <strong>Narrow AI</strong> — outstanding at ONE specific task. A chess AI cannot drive
+              a
+              car. A face-recognition system cannot write essays. <strong>General AI (AGI)</strong> — a system that can
+              do
+              anything a human can — does not exist yet and is the central open question in AI research.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 7 — RISKS & BENEFITS ▓▓ -->
+      <div class="slide" id="s6">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag coral">Chapter 1 · Section 1.5 · Page 49</div>
+            <h1>Risks and <em>Benefits</em> of AI</h1>
+            <p class="ssub">Great power requires great responsibility — and careful thinking</p>
+          </div>
+
+          <div class="tcol">
+            <div class="box green">
+              <div class="blabel">✅ Major Benefits</div>
+              <p>
+                🏥 <strong>Healthcare</strong> — earlier disease detection, faster drug discovery, personalized
+                treatment<br><br>
+                📚 <strong>Education</strong> — personalized tutoring, 24/7 AI teachers accessible to everyone
+                worldwide<br><br>
+                🌱 <strong>Climate</strong> — optimizing energy use, predicting environmental changes, better renewable
+                tech<br><br>
+                ⚡ <strong>Productivity</strong> — automating dangerous, boring, or repetitive tasks, freeing humans for
+                creative work<br><br>
+                🔬 <strong>Science</strong> — AI discovers new drugs (AlphaFold solved protein folding), accelerates
+                research
+              </p>
+            </div>
+            <div class="box coral">
+              <div class="blabel">⚠️ Major Risks</div>
+              <p>
+                🎯 <strong>Lethal Weapons</strong> — autonomous drones that select and kill targets without any human
+                decision<br><br>
+                👁 <strong>Surveillance</strong> — facial recognition and mass monitoring enabling authoritarian
+                control<br><br>
+                💼 <strong>Job Loss</strong> — automation replacing truck drivers, cashiers, data entry, even some
+                doctors<br><br>
+                ⚖️ <strong>Bias & Discrimination</strong> — AI trained on biased data can discriminate in hiring,
+                lending,
+                policing<br><br>
+                📰 <strong>Misinformation</strong> — deepfakes, AI-generated fake news damaging democracy<br><br>
+                🔒 <strong>Privacy</strong> — massive personal data collection, misuse, surveillance capitalism
+              </p>
+            </div>
+          </div>
+
+          <div class="box purple">
+            <div class="blabel">🔑 The Alignment Problem — Most Critical Long-Term Risk</div>
+            <p>In older editions of this book, AI was assumed to have <em>fixed, known objectives</em> given by human
+              designers. In the <strong>4th edition</strong>, the authors argue AI systems may be <strong>uncertain
+                about
+                human values</strong> and must learn what humans truly want. Ensuring AI goals remain aligned with human
+              welfare — the <em>"alignment problem"</em> — is considered the most important unsolved challenge in AI
+              safety research today.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 8 — AGENTS ▓▓ -->
+      <div class="slide" id="s7">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag teal">Chapter 2 · Section 2.1 · Page 54</div>
+            <h1>Agents, Sensors &amp; <em>Actuators</em></h1>
+            <p class="ssub">The central concept of the entire book — everything builds on this</p>
+          </div>
+
+          <div class="box teal">
+            <div class="blabel">Core Definition: Agent</div>
+            <p>An <strong>agent</strong> is anything that <strong>perceives</strong> its environment through
+              <strong>sensors</strong> and <strong>acts</strong> upon that environment through
+              <strong>actuators</strong>.
+              The agent's decision process maps what it perceives to what it does.
+            </p>
+          </div>
+
+          <div class="aflow">
+            <div class="aflabel">How Every Agent Works</div>
+            <div class="arow">
+              <div class="ablock">🌍 Environment</div>
+              <div class="aarr">→</div>
+              <div class="ablock">👁 Sensors<br><small style="font-weight:500;color:var(--muted)">percepts in</small>
+              </div>
+              <div class="aarr">→</div>
+              <div class="ablock">🧠 Agent Brain<br><small style="font-weight:500;color:var(--muted)">decision</small>
+              </div>
+              <div class="aarr">→</div>
+              <div class="ablock">⚙️ Actuators<br><small style="font-weight:500;color:var(--muted)">actions out</small>
+              </div>
+              <div class="aarr">→</div>
+              <div class="ablock">🌍 Environment</div>
+            </div>
+          </div>
+
+          <table class="tbl">
+            <tr>
+              <th>Agent</th>
+              <th>Sensors (perceives)</th>
+              <th>Actuators (does)</th>
+            </tr>
+            <tr>
+              <td>🚗 Self-Driving Car</td>
+              <td>Cameras, LIDAR, radar, GPS, speedometer</td>
+              <td>Steering wheel, accelerator, brakes, horn</td>
+            </tr>
+            <tr>
+              <td>📧 Spam Filter</td>
+              <td>Email text, headers, sender info</td>
+              <td>Move to spam or keep in inbox</td>
+            </tr>
+            <tr>
+              <td>🤖 Robot Arm</td>
+              <td>Cameras, force/touch sensors, joint encoders</td>
+              <td>Motor joints, gripper open/close</td>
+            </tr>
+            <tr>
+              <td>💬 Chatbot</td>
+              <td>Typed or spoken text input</td>
+              <td>Generated text or voice output</td>
+            </tr>
+            <tr>
+              <td>👤 Human</td>
+              <td>Eyes, ears, skin, nose, tongue</td>
+              <td>Hands, legs, mouth, facial expressions</td>
+            </tr>
+          </table>
+
+          <h2>Agent Function vs Agent Program</h2>
+          <div class="dlist">
+            <div class="ditem">
+              <div class="dlabel">Agent Function</div>
+              <div class="ddesc"><strong>Abstract mathematical specification:</strong> maps every possible percept
+                sequence to an action. Describes <em>what</em> the agent should do in theory. The ideal blueprint.</div>
+            </div>
+            <div class="ditem">
+              <div class="dlabel">Agent Program</div>
+              <div class="ddesc"><strong>Concrete code running on hardware:</strong> the actual Python, Java, or C++
+                implementation. Describes <em>how</em> the agent actually works in practice. Many different programs can
+                implement the same function.</div>
+            </div>
+          </div>
+
+          <div class="box blue">
+            <div class="blabel">Key Terms</div>
+            <p><strong>Percept</strong> — a single sensor input at one moment. <strong>Percept Sequence</strong> — the
+              complete history of all inputs ever received. The agent's action can depend on its entire history — not
+              just
+              the current moment.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 9 — RATIONALITY ▓▓ -->
+      <div class="slide" id="s8">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag teal">Chapter 2 · Section 2.2 · Page 57</div>
+            <h1>Rational Agents &amp; <em>Good Behavior</em></h1>
+            <p class="ssub">What does it mean to act correctly? — The most important definition in Chapter 2</p>
+          </div>
+
+          <div class="box teal">
+            <div class="blabel">Definition: Rational Agent</div>
+            <p>A <strong>rational agent</strong> selects the action that is expected to <strong>maximize its performance
+                measure</strong>, given the evidence from its percept sequence and whatever built-in knowledge it has.
+              It
+              does the <em>best possible thing</em> given what it knows.</p>
+          </div>
+
+          <h2>4 Factors That Determine Rationality</h2>
+          <div class="dlist">
+            <div class="ditem">
+              <div class="dlabel">① Performance Measure</div>
+              <div class="ddesc"><strong>What counts as success?</strong> For a vacuum robot: clean squares per hour.
+                For
+                a chess AI: winning the game. For a taxi: safe journey + fast arrival + passenger comfort.</div>
+            </div>
+            <div class="ditem">
+              <div class="dlabel">② Prior Knowledge</div>
+              <div class="ddesc"><strong>What does the agent already know</strong> about the environment before it
+                starts?
+                A new robot in an unknown warehouse knows less than one that has mapped it.</div>
+            </div>
+            <div class="ditem">
+              <div class="dlabel">③ Possible Actions</div>
+              <div class="ddesc"><strong>What can the agent actually do?</strong> A robot with no legs can't walk. An
+                email filter can't delete a virus from your computer — only move emails.</div>
+            </div>
+            <div class="ditem">
+              <div class="dlabel">④ Percept Sequence</div>
+              <div class="ddesc"><strong>What has the agent observed so far?</strong> A robot that just saw a wall
+                should
+                not walk forward. Past observations inform current decisions.</div>
+            </div>
+          </div>
+
+          <div class="box coral">
+            <div class="blabel">⚠️ Most Common Exam Mistake: Rational ≠ Omniscient</div>
+            <p>A rational agent does the <strong>best it can with available information</strong>. It is NOT required to
+              be
+              perfect or predict the future.<br><br>
+              <strong>Example:</strong> You study hard for an exam (rational). The exam covers unexpected topics and you
+              fail. Your decision to study was <em>still rational</em> — you just had bad luck. Rationality is about
+              <strong>expected outcomes</strong> before the fact, not actual outcomes after the fact.
+            </p>
+          </div>
+
+          <div class="box green">
+            <div class="blabel">💡 Exploration is Also Rational</div>
+            <p>A rational agent should actively <strong>gather more information</strong> when useful. A robot vacuum
+              entering an unknown house should first explore all rooms before randomly cleaning — exploration itself is
+              a
+              rational action! The book calls this <em>information gathering</em>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 10 — PEAS ▓▓ -->
+      <div class="slide" id="s9">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag amber">Chapter 2 · Section 2.3 · Page 60</div>
+            <h1>The <em>PEAS</em> Framework</h1>
+            <p class="ssub">The standard way to fully describe any agent and its task environment</p>
+          </div>
+
+          <p>Before designing any AI agent, you must specify its <strong>PEAS</strong>. This framework is used
+            throughout
+            the entire book. The acronym stands for:</p>
+
+          <div class="cgrid">
+            <div class="card"><span class="cico">🎯</span>
+              <h3>P — Performance Measure</h3>
+              <p>How do you measure success? What should the agent maximize? Be specific — a vague goal produces bad AI.
+              </p>
+            </div>
+            <div class="card"><span class="cico">🌍</span>
+              <h3>E — Environment</h3>
+              <p>Where does the agent operate? What objects, rules, and boundaries define its world?</p>
+            </div>
+            <div class="card"><span class="cico">⚙️</span>
+              <h3>A — Actuators</h3>
+              <p>What physical or digital actions can the agent perform? How does it change its environment?</p>
+            </div>
+            <div class="card"><span class="cico">👁</span>
+              <h3>S — Sensors</h3>
+              <p>How does the agent perceive its world? What data can it receive as input?</p>
+            </div>
+          </div>
+
+          <hr class="div">
+
+          <h2 class="amber">PEAS Example: Self-Driving Taxi</h2>
+          <table class="tbl">
+            <tr>
+              <th>PEAS</th>
+              <th>Full Description</th>
+            </tr>
+            <tr>
+              <td><strong>Performance</strong></td>
+              <td>Safe journey, fast arrival, obey all traffic laws, maximize profit, minimize fuel, passenger comfort
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Environment</strong></td>
+              <td>City roads, other cars, pedestrians, traffic lights, road signs, weather conditions, GPS maps,
+                passengers</td>
+            </tr>
+            <tr>
+              <td><strong>Actuators</strong></td>
+              <td>Steering wheel, accelerator, brakes, horn, turn signals, windshield wipers, display screen</td>
+            </tr>
+            <tr>
+              <td><strong>Sensors</strong></td>
+              <td>Cameras (front/side/rear), LIDAR, radar, GPS, speedometer, odometer, rain sensor, microphone</td>
+            </tr>
+          </table>
+
+          <h2 class="teal">PEAS Example: YouTube Recommendation System</h2>
+          <table class="tbl">
+            <tr>
+              <th>PEAS</th>
+              <th>Full Description</th>
+            </tr>
+            <tr>
+              <td><strong>Performance</strong></td>
+              <td>User satisfaction, watch time, click rate, subscription growth, return visits, ad revenue</td>
+            </tr>
+            <tr>
+              <td><strong>Environment</strong></td>
+              <td>YouTube website, user database, video catalog, user behavior logs, competitor platforms</td>
+            </tr>
+            <tr>
+              <td><strong>Actuators</strong></td>
+              <td>Rank and display videos, send push notifications, personalize home page, show ads</td>
+            </tr>
+            <tr>
+              <td><strong>Sensors</strong></td>
+              <td>User clicks, watch history, likes/dislikes, search queries, browsing patterns, ratings, demographics
+              </td>
+            </tr>
+          </table>
+
+          <div class="box blue">
+            <div class="blabel">📌 Exam Tip</div>
+            <p>A common exam question: <strong>"Write a complete PEAS description for [some AI system]."</strong>
+              Practice
+              writing PEAS for systems you use daily — WhatsApp, Instagram, Google Maps, your bank's fraud detection
+              system.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 11 — ENVIRONMENT TYPES ▓▓ -->
+      <div class="slide" id="s10">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag amber">Chapter 2 · Section 2.3 · Page 61</div>
+            <h1>Types of <em>Environments</em></h1>
+            <p class="ssub">7 key properties — each comes as an opposite pair you must classify</p>
+          </div>
+
+          <p>These properties describe <strong>how complex and challenging</strong> an environment is. Identify them
+            before designing your agent:</p>
+
+          <table class="tbl">
+            <tr>
+              <th>Property</th>
+              <th>Type A</th>
+              <th>Type B</th>
+              <th>Classic Example</th>
+            </tr>
+            <tr>
+              <td><strong>Observability</strong></td>
+              <td><span class="tag g">Fully Observable</span><br><small>Agent sees complete state</small></td>
+              <td><span class="tag c">Partially Observable</span><br><small>Agent has limited/incomplete view</small>
+              </td>
+              <td>Chess (see all) vs. Poker (can't see cards)</td>
+            </tr>
+            <tr>
+              <td><strong>Agents</strong></td>
+              <td><span class="tag b">Single-Agent</span><br><small>Only one decision maker</small></td>
+              <td><span class="tag a">Multi-Agent</span><br><small>Many agents cooperating or competing</small></td>
+              <td>Crossword puzzle vs. Chess match (2 players)</td>
+            </tr>
+            <tr>
+              <td><strong>Outcomes</strong></td>
+              <td><span class="tag g">Deterministic</span><br><small>Same action → same result always</small></td>
+              <td><span class="tag c">Stochastic</span><br><small>Randomness involved in outcomes</small></td>
+              <td>Chess (fixed moves) vs. Backgammon (dice)</td>
+            </tr>
+            <tr>
+              <td><strong>Time</strong></td>
+              <td><span class="tag b">Episodic</span><br><small>Each task is completely independent</small></td>
+              <td><span class="tag a">Sequential</span><br><small>Past decisions affect future choices</small></td>
+              <td>Spam filter (each email independent) vs. Chess</td>
+            </tr>
+            <tr>
+              <td><strong>Changes</strong></td>
+              <td><span class="tag g">Static</span><br><small>World frozen while agent thinks</small></td>
+              <td><span class="tag c">Dynamic</span><br><small>World changes even while agent decides</small></td>
+              <td>Crossword puzzle vs. Driving a car</td>
+            </tr>
+            <tr>
+              <td><strong>States</strong></td>
+              <td><span class="tag b">Discrete</span><br><small>Finite, countable states and actions</small></td>
+              <td><span class="tag a">Continuous</span><br><small>Infinite possibilities (real numbers)</small></td>
+              <td>Chess moves vs. Self-driving car position/speed</td>
+            </tr>
+            <tr>
+              <td><strong>Rules Known?</strong></td>
+              <td><span class="tag g">Known</span><br><small>Agent understands all environment rules</small></td>
+              <td><span class="tag c">Unknown</span><br><small>Agent must discover how the world works</small></td>
+              <td>Chess (clear rules) vs. Exploring a new planet</td>
+            </tr>
+          </table>
+
+          <div class="box coral">
+            <div class="blabel">🌍 The Real World = The Hardest Combination</div>
+            <p>Real-world environments are: <strong>Partially Observable + Multi-Agent + Stochastic + Sequential +
+                Dynamic
+                + Continuous + Often Unknown.</strong> This is exactly why building reliable AI for the real world (like
+              autonomous cars or medical AI) is so extraordinarily difficult!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 12 — AGENT TYPES ▓▓ -->
+      <div class="slide" id="s11">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag purple">Chapter 2 · Section 2.4 · Page 65</div>
+            <h1>5 Types of <em>Agent Programs</em></h1>
+            <p class="ssub">From the simplest to the most powerful — each adds a new capability</p>
+          </div>
+
+          <p>Agent programs are ranked by power. <strong>Each type adds one new capability</strong> that the simpler
+            type
+            lacked:</p>
+
+          <div class="dlist">
+            <div class="ditem" style="border-left:4px solid var(--teal)">
+              <div class="dlabel teal" style="min-width:160px">① Simple<br>Reflex Agent</div>
+              <div class="ddesc">
+                <strong>Uses IF-THEN rules only. Looks at the current percept only — zero memory of the
+                  past.</strong><br>
+                Example: Thermostat — IF temp &lt; 20°C THEN turn on heater. Very fast but very limited.<br>
+                <span class="tag c" style="margin-top:5px;display:inline-block">Weakness: Fails in partially observable
+                  or
+                  complex environments</span>
+              </div>
+            </div>
+            <div class="ditem" style="border-left:4px solid var(--blue)">
+              <div class="dlabel" style="min-width:160px">② Model-Based<br>Reflex Agent</div>
+              <div class="ddesc">
+                <strong>Has an internal model (memory) of the world. Tracks things it cannot currently see.</strong><br>
+                Example: A car that remembers a pedestrian went behind a truck — knows they're still there even when out
+                of view.<br>
+                <span class="tag b" style="margin-top:5px;display:inline-block">Better: Handles partial
+                  observability</span>
+              </div>
+            </div>
+            <div class="ditem" style="border-left:4px solid var(--amber)">
+              <div class="dlabel amber" style="min-width:160px">③ Goal-Based<br>Agent</div>
+              <div class="ddesc">
+                <strong>Has explicit goals and searches for action sequences that achieve them.</strong><br>
+                Example: Google Maps — goal: reach destination. Searches and computes the best route, and adapts when
+                you
+                take a wrong turn.<br>
+                <span class="tag a" style="margin-top:5px;display:inline-block">Better: Flexible — adapts when the
+                  situation changes</span>
+              </div>
+            </div>
+            <div class="ditem" style="border-left:4px solid var(--purple)">
+              <div class="dlabel purple" style="min-width:160px">④ Utility-Based<br>Agent</div>
+              <div class="ddesc">
+                <strong>Uses a utility function — assigns a "happiness score" to each possible outcome. Maximizes
+                  expected
+                  happiness.</strong><br>
+                Example: A taxi robot that balances speed, passenger comfort, fuel cost, and safety — not one goal but
+                many tradeoffs simultaneously.<br>
+                <span class="tag p" style="margin-top:5px;display:inline-block">Best for multiple conflicting
+                  goals</span>
+              </div>
+            </div>
+            <div class="ditem" style="border-left:4px solid var(--green)">
+              <div class="dlabel green" style="min-width:160px">⑤ Learning<br>Agent</div>
+              <div class="ddesc">
+                <strong>All of the above PLUS a learning element that improves performance from experience and a critic
+                  that evaluates behavior.</strong><br>
+                Example: AlphaGo — started knowing nothing about Go and became the world's best player through millions
+                of
+                self-play games.<br>
+                <span class="tag g" style="margin-top:5px;display:inline-block">Most powerful: Improves without manual
+                  reprogramming</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="box navy">
+            <div class="blabel">📌 Exam Tip</div>
+            <p>Be able to list all 5 types with a one-sentence description and a different real-world example for each.
+              Know the key difference between each consecutive pair.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 13 — LEARNING AGENT ▓▓ -->
+      <div class="slide" id="s12">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag purple">Chapter 2 · Section 2.4 · Page 73</div>
+            <h1>Inside a <em>Learning Agent</em></h1>
+            <p class="ssub">The most powerful architecture — broken into 4 cooperating components</p>
+          </div>
+
+          <p>A learning agent has <strong>four components</strong> working together in a loop. Think of it as a student
+            in
+            school:</p>
+
+          <div class="cgrid">
+            <div class="card" style="border-top:3px solid var(--teal)">
+              <span class="cico">📖</span>
+              <h3>Learning Element</h3>
+              <p>Makes improvements to the agent's knowledge and behavior based on feedback from the Critic. Responsible
+                for getting better over time.</p>
+              <div class="ctag"><span class="tag t">Like: A student studying at home</span></div>
+            </div>
+            <div class="card" style="border-top:3px solid var(--blue)">
+              <span class="cico">⚡</span>
+              <h3>Performance Element</h3>
+              <p>Selects actual actions and executes them in the real environment. The main "doing" part that everyone
+                can
+                see.</p>
+              <div class="ctag"><span class="tag b">Like: A student taking the exam</span></div>
+            </div>
+            <div class="card" style="border-top:3px solid var(--coral)">
+              <span class="cico">📊</span>
+              <h3>Critic</h3>
+              <p>Evaluates how well the Performance Element is doing against a fixed external standard. Sends feedback
+                to
+                the Learning Element.</p>
+              <div class="ctag"><span class="tag c">Like: A teacher grading the exam</span></div>
+            </div>
+            <div class="card" style="border-top:3px solid var(--amber)">
+              <span class="cico">🧪</span>
+              <h3>Problem Generator</h3>
+              <p>Suggests new experiments and actions to explore — even if short-term results are worse — to discover
+                better long-term strategies.</p>
+              <div class="ctag"><span class="tag a">Like: A teacher assigning new practice exercises</span></div>
+            </div>
+          </div>
+
+          <table class="tbl">
+            <tr>
+              <th>Component</th>
+              <th>Role in the Agent</th>
+              <th>School Analogy</th>
+            </tr>
+            <tr>
+              <td><strong>Learning Element</strong></td>
+              <td>Improves knowledge, strategies, and internal rules based on feedback</td>
+              <td>Student studying + reviewing mistakes</td>
+            </tr>
+            <tr>
+              <td><strong>Performance Element</strong></td>
+              <td>Takes actions in the real environment using current knowledge</td>
+              <td>Student taking the actual exam</td>
+            </tr>
+            <tr>
+              <td><strong>Critic</strong></td>
+              <td>Evaluates actions against a performance standard; generates feedback signal</td>
+              <td>Teacher marking and grading the paper</td>
+            </tr>
+            <tr>
+              <td><strong>Problem Generator</strong></td>
+              <td>Proposes new situations to explore for better long-term learning</td>
+              <td>Teacher assigning varied practice problems</td>
+            </tr>
+          </table>
+
+          <div class="box green">
+            <div class="blabel">💡 Why Learning Agents are Special</div>
+            <p>A learning agent can start with almost no knowledge and <strong>get better all by itself through
+                experience</strong> — without a programmer manually updating its rules. This is how modern AI (AlphaGo,
+              ChatGPT, recommendation systems) works. They <em>learn</em> from massive data rather than hand-coded
+              rules.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 14 — CHEAT SHEET ▓▓ -->
+      <div class="slide" id="s13">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag green">Exam Prep · All Chapters</div>
+            <h1>Master <em>Cheat Sheet</em></h1>
+            <p class="ssub">Every key term, concept, and exam point from both chapters</p>
+          </div>
+
+          <h2>Chapter 1 — Key Terms</h2>
+          <div class="csgrid">
+            <div class="csitem">
+              <div class="cst">Artificial Intelligence</div>
+              <div class="csd">Study of agents that perceive their environment and act to achieve goals as effectively
+                as
+                possible</div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Turing Test</div>
+              <div class="csd">A computer passes if a human examiner cannot distinguish it from a human in text
+                conversation</div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Rational Agent</div>
+              <div class="csd">Agent that always selects the action expected to maximize its performance measure given
+                available info</div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Narrow AI</div>
+              <div class="csd">AI excellent at ONE specific task only — all currently existing AI systems are Narrow AI
+              </div>
+            </div>
+            <div class="csitem">
+              <div class="cst">AGI (General AI)</div>
+              <div class="csd">Hypothetical AI that can perform any intellectual task a human can — does NOT exist yet
+              </div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Expert System</div>
+              <div class="csd">AI with thousands of IF-THEN rules built from interviews with human domain experts (e.g.
+                MYCIN)</div>
+            </div>
+            <div class="csitem">
+              <div class="cst">AI Winter</div>
+              <div class="csd">Periods (1966–73 and 1987–93) when AI funding crashed due to failed promises and
+                limitations</div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Alignment Problem</div>
+              <div class="csd">The challenge of ensuring AI systems always pursue goals genuinely aligned with human
+                values</div>
+            </div>
+          </div>
+
+          <h2>Chapter 2 — Key Terms</h2>
+          <div class="csgrid">
+            <div class="csitem">
+              <div class="cst">Agent</div>
+              <div class="csd">Anything that perceives its environment via sensors and acts upon it via actuators</div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Percept / Percept Sequence</div>
+              <div class="csd">Percept = one sensor input now. Sequence = complete history of all inputs ever received
+              </div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Agent Function vs Program</div>
+              <div class="csd">Function = abstract math specification (what to do). Program = actual code running on
+                hardware (how)</div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Performance Measure</div>
+              <div class="csd">External metric that defines success — set by the designer, not by the agent itself</div>
+            </div>
+            <div class="csitem">
+              <div class="cst">PEAS</div>
+              <div class="csd">Performance, Environment, Actuators, Sensors — the standard framework for describing any
+                agent task</div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Simple Reflex Agent</div>
+              <div class="csd">Uses IF-THEN rules, reacts to current percept only, no memory whatsoever</div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Goal-Based Agent</div>
+              <div class="csd">Has explicit goals and uses search/planning to find action sequences that achieve them
+              </div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Utility-Based Agent</div>
+              <div class="csd">Maximizes a utility (happiness) function — handles multiple conflicting goals with smart
+                tradeoffs</div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Learning Agent</div>
+              <div class="csd">4 parts: Learning Element, Performance Element, Critic, Problem Generator. Improves from
+                experience</div>
+            </div>
+            <div class="csitem">
+              <div class="cst">Critic</div>
+              <div class="csd">Component of Learning Agent that evaluates behavior against performance standard and
+                provides feedback</div>
+            </div>
+          </div>
+
+          <div class="box blue" style="margin-top:16px">
+            <div class="blabel">🏆 6 Golden Exam Points — Memorize These</div>
+            <p style="line-height:2.1">
+              <strong>1.</strong> The book defines AI as <em>acting rationally</em> — not "thinking like humans"<br>
+              <strong>2.</strong> Rational ≠ Perfect or Omniscient — rational = best action with available
+              information<br>
+              <strong>3.</strong> PEAS = Performance measure · Environment · Actuators · Sensors<br>
+              <strong>4.</strong> Real world = Partially Observable + Multi-Agent + Stochastic + Sequential + Dynamic +
+              Continuous<br>
+              <strong>5.</strong> 5 agent types in order: Simple Reflex → Model-Based → Goal-Based → Utility-Based →
+              Learning<br>
+              <strong>6.</strong> Learning Agent = 4 parts: Learning Element · Performance Element · Critic · Problem
+              Generator
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▓▓ SLIDE 15 — ASSIGNMENTS ▓▓ -->
+      <div class="slide" id="s14">
+        <div class="inner">
+          <div class="shead">
+            <div class="stag rose">Assignments & Homework</div>
+            <h1>Your Tasks &amp; <em>Skilljar Courses</em></h1>
+            <p class="ssub">In-class written work + 3 online courses to complete before next class</p>
+          </div>
+
+          <!-- Written assignments -->
+          <h2 class="rose">📝 Written Assignments (In-Class)</h2>
+          <div class="asgn-grid">
+            <div class="asgn-card">
+              <h3>
+                <div class="asgn-num">1</div>Write Key Definitions
+              </h3>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:8px">2–3 sentences each:</p>
+              <ul>
+                <li>Artificial Intelligence</li>
+                <li>Intelligent agent</li>
+                <li>Rational agent</li>
+                <li>Performance measure</li>
+                <li>Agent function vs agent program</li>
+              </ul>
+            </div>
+            <div class="asgn-card">
+              <h3>
+                <div class="asgn-num">2</div>The Four Views of AI
+              </h3>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:8px">List and explain all 4 perspectives. Give
+                one
+                real-world example for any two of them.</p>
+              <ul>
+                <li>Think like humans</li>
+                <li>Act like humans (Turing Test)</li>
+                <li>Think rationally (logic)</li>
+                <li>Act rationally ← book's approach</li>
+              </ul>
+            </div>
+            <div class="asgn-card">
+              <h3>
+                <div class="asgn-num">3</div>PEAS + Environment Analysis
+              </h3>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Pick ONE AI system you use daily (YouTube,
+                Google Maps, banking app, Instagram):</p>
+              <ul>
+                <li>Write its complete PEAS</li>
+                <li>Classify its environment on all 7 properties</li>
+                <li>Explain your reasoning for each</li>
+              </ul>
+            </div>
+            <div class="asgn-card">
+              <h3>
+                <div class="asgn-num">4</div>Five Agent Types
+              </h3>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:8px">For each of the 5 agent types write:</p>
+              <ul>
+                <li>Its name + brief description</li>
+                <li>One real-world example (different from lecture)</li>
+                <li>Its key limitation (what it can't do)</li>
+              </ul>
+            </div>
+            <div class="asgn-card">
+              <h3>
+                <div class="asgn-num">5</div>Benefits &amp; Risks Essay
+              </h3>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Short essay format:</p>
+              <ul>
+                <li>3 major benefits of AI with explanations</li>
+                <li>3 major risks or ethical concerns</li>
+                <li>Your personal opinion on the alignment problem</li>
+              </ul>
+            </div>
+            <div class="asgn-card">
+              <h3>
+                <div class="asgn-num">6</div>History Short Summary
+              </h3>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Write a 150–200 word summary covering:</p>
+              <ul>
+                <li>How AI started (1950s)</li>
+                <li>What caused the two AI Winters</li>
+                <li>Why deep learning changed everything</li>
+              </ul>
+            </div>
+          </div>
+
+          <hr class="div">
+
+          <!-- Skilljar section -->
+          <h2 class="rose">🎓 Skilljar Online Courses — Complete Any 3</h2>
+
+          <div class="link-box">
+            <div class="link-icon">🌐</div>
+            <div class="link-text">
+              <div class="link-title">Anthropic Skilljar Learning Platform</div>
+              <a class="link-url" href="https://anthropic.skilljar.com/"
+                target="_blank">https://anthropic.skilljar.com/</a>
+            </div>
+            <div
+              style="font-size:12px;font-weight:700;color:#7dd3fc;background:rgba(255,255,255,0.1);padding:6px 12px;border-radius:8px;white-space:nowrap">
+              Free · Self-Paced</div>
+          </div>
+
+          <div class="course-grid">
+            <div class="course-item">
+              <div class="course-num">1</div>
+              <div class="cname">Claude Code in Action</div>
+            </div>
+            <div class="course-item">
+              <div class="course-num">2</div>
+              <div class="cname">Claude 101</div>
+            </div>
+            <div class="course-item">
+              <div class="course-num">3</div>
+              <div class="cname">AI Fluency: Framework &amp; Foundations</div>
+            </div>
+            <div class="course-item">
+              <div class="course-num">4</div>
+              <div class="cname">AI Fluency for Students</div>
+            </div>
+            <div class="course-item">
+              <div class="course-num">5</div>
+              <div class="cname">Introduction to Agent Skills</div>
+            </div>
+          </div>
+
+          <div class="submission-box">
+            <div class="sub-title"><span>📋</span>Submission — What to Write for Each Course</div>
+            <ul>
+              <li>✍️ <strong>One key concept</strong> you learned from that course (2–3 sentences)</li>
+              <li>🔗 <strong>How it connects</strong> to AIMA Chapters 1 or 2 — which topic does it relate to?</li>
+              <li>💡 <strong>One practical application</strong> or real example from the course content</li>
+              <li>📌 <strong>Complete at least 3 courses</strong> and submit your written notes for all 3</li>
+            </ul>
+          </div>
+
+          <div class="box blue" style="margin-top:14px">
+            <div class="blabel">✅ Checklist Before Next Class</div>
+            <p style="line-height:2">
+              ☐ Written definition sheet (Task 1)<br>
+              ☐ Four views of AI with examples (Task 2)<br>
+              ☐ PEAS + environment analysis of one daily app (Task 3)<br>
+              ☐ Five agent types with examples (Task 4)<br>
+              ☐ Benefits &amp; risks essay (Task 5)<br>
+              ☐ AI history summary (Task 6)<br>
+              ☐ 3 Skilljar course notes from <strong>anthropic.skilljar.com</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end slides -->
+  </div><!-- end slides-container -->
+
+  <div class="botnav">
+    <button class="bn-btn" id="prevBtn" onclick="prevSlide()">← Previous</button>
+    <div class="bn-progress"><span id="slideCount">1</span> / 15</div>
+    <button class="bn-btn" id="nextBtn" onclick="nextSlide()">Next →</button>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    function updateUI() {
+      const slides_el = document.getElementById('slides');
+      slides_el.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+      document.getElementById('slideCount').textContent = currentSlide + 1;
+      document.getElementById('prevBtn').disabled = currentSlide === 0;
+      document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+
+      const pbar = document.getElementById('pbar');
+      pbar.style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+
+      // scroll slide to top
+      slides[currentSlide].scrollTop = 0;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateUI();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateUI();
+      }
+    }
+
+
+
+    // Keyboard
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+    });
+
+    // Touch/swipe
+    let tx = 0;
+    document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    document.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) > 45) {
+        if (dx < 0) nextSlide();
+        else prevSlide();
+      }
+    });
+
+    // Home button
+    document.getElementById('homeBtn').onclick = () => window.location.href = 'index.html';
+
+    updateUI();
+  </script>
+</body>
+
+</html>

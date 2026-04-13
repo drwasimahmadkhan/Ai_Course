@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AI Tutorial — Chapters 21 & 22: Learning Models & DL | BSCS</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style type="text/tailwindcss">
+  body { @apply bg-slate-50 text-slate-800 font-['Nunito'] overflow-hidden h-screen antialiased; }
+  .topnav { @apply fixed top-0 left-0 right-0 h-14 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-5 z-50; }
+  .tnav-title h1 { @apply text-lg font-extrabold text-slate-900 leading-none tracking-tight; }
+  .tnav-title p { @apply text-xs text-slate-500 font-bold mt-1 uppercase tracking-wider; }
+  .tnav-instructor { @apply text-sm font-bold text-slate-700 hidden md:block; }
+  .tnav-btn { @apply bg-white border border-slate-200 rounded-lg px-4 py-2 text-sm font-bold text-slate-700 cursor-pointer transition flex items-center gap-2 hover:bg-slate-50 hover:shadow-sm; }
+  
+  .slides-container { @apply fixed top-14 left-0 right-0 bottom-14 overflow-hidden bg-slate-50/50; }
+  .slides { @apply flex w-full h-full transition-transform duration-300 ease-in-out; }
+  .slide { @apply w-full h-full shrink-0 overflow-y-auto px-6 py-8 md:px-12 md:py-10; }
+  .slide h1 { @apply text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight leading-tight; }
+  .slide h2 { @apply text-2xl md:text-3xl font-extrabold text-slate-800 mt-10 mb-5 tracking-tight; }
+  .slide h3 { @apply text-xl font-bold text-slate-700 mt-6 mb-3; }
+  .slide p { @apply text-base text-slate-600 leading-relaxed mb-4; }
+  .slide ul { @apply list-disc list-outside pl-6 space-y-2 mb-6 text-slate-600; }
+  
+  .box { @apply rounded-2xl p-5 my-5 border-l-4 shadow-sm bg-white; }
+  .box.blue { @apply border-blue-500 bg-blue-50/50; }
+  .box.teal { @apply border-teal-500 bg-teal-50/50; }
+  .box.coral { @apply border-rose-500 bg-rose-50/50; }
+  .box.amber { @apply border-amber-500 bg-amber-50/50; }
+  .box.purple { @apply border-purple-500 bg-purple-50/50; }
+  .box.green { @apply border-emerald-500 bg-emerald-50/50; }
+  .blabel { @apply text-xs font-black tracking-widest uppercase mb-2; }
+  .box.blue .blabel { @apply text-blue-600; }
+  .box.teal .blabel { @apply text-teal-600; }
+  .box.coral .blabel { @apply text-rose-600; }
+  .box.amber .blabel { @apply text-amber-600; }
+  .box.purple .blabel { @apply text-purple-600; }
+  .box.green .blabel { @apply text-emerald-600; }
+  
+  .cgrid { @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-6; }
+  .card { @apply bg-white border border-slate-100 rounded-2xl p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md; }
+  .cico { @apply text-3xl mb-3 block; }
+  .card h3 { @apply text-lg font-bold text-slate-900 mb-2; }
+  .card p { @apply text-sm text-slate-500 leading-relaxed max-w-full break-words; }
+  
+  .tbl { @apply w-full border-collapse my-6 text-sm rounded-xl overflow-hidden shadow-sm border border-slate-200 bg-white; }
+  .tbl th { @apply bg-slate-900 text-white text-xs font-bold uppercase tracking-wider px-4 py-3 text-left; }
+  .tbl td { @apply px-4 py-3 border-b border-slate-100 text-slate-600 align-top; }
+  
+  .tag { @apply inline-block text-[10px] font-bold px-2.5 py-1 rounded-md mx-0.5 uppercase tracking-wider; }
+  .tag.b { @apply bg-blue-100 text-blue-700; }
+  .tag.t { @apply bg-teal-100 text-teal-700; }
+  .tag.c { @apply bg-rose-100 text-rose-700; }
+  .tag.p { @apply bg-purple-100 text-purple-700; }
+  .tag.g { @apply bg-emerald-100 text-emerald-700; }
+  .tag.a { @apply bg-amber-100 text-amber-700; }
+  
+  .botnav { @apply fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-slate-200 flex items-center justify-between px-8 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]; }
+  .bn-btn { @apply bg-white border border-slate-200 rounded-xl px-6 py-2.5 text-sm font-bold text-slate-700 cursor-pointer transition-all hover:bg-slate-50 hover:border-slate-300 hover:shadow-sm active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100; }
+  .bn-progress { @apply text-sm font-black text-slate-500 tracking-widest tabular-nums; }
+
+
+  .dlist { @apply flex flex-col gap-3 my-4; }
+  .ditem { @apply flex flex-col sm:flex-row gap-2 sm:gap-4 bg-white border border-slate-100 rounded-xl px-5 py-4 shadow-sm; }
+  .dlabel { @apply font-bold text-sm min-w-[160px] shrink-0; }
+  .ddesc { @apply text-sm text-slate-600 leading-relaxed; }
+
+  .cover { @apply flex flex-col justify-center items-center text-center p-8 rounded-3xl min-h-[calc(100vh-10rem)] bg-gradient-to-br from-indigo-50/80 via-white to-cyan-50/80 shadow-sm border border-slate-100 mb-6; }
+  .cbadge { @apply bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-black uppercase tracking-widest px-6 py-2.5 rounded-full mb-6 shadow-md; }
+  .cover h1 { @apply text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight leading-tight max-w-4xl mx-auto; }
+  .cover h2 { @apply text-xl md:text-2xl font-bold text-slate-600 mb-8 max-w-3xl mx-auto italic; }
+  .cover-meta { @apply text-sm text-slate-400 mt-8 font-bold uppercase tracking-wider; }
+
+  /* Additional components found in week-01 */
+  .aflabel { @apply text-xs font-black text-slate-400 uppercase tracking-wider mb-4; }
+  .aflow { @apply bg-white border-2 border-blue-200 rounded-2xl p-6 my-6 text-center shadow-sm; }
+  .arow { @apply flex items-center justify-center gap-3 flex-wrap; }
+  .ablock { @apply bg-blue-50 border border-blue-200 rounded-xl px-4 py-2 text-sm font-bold text-slate-800 shadow-sm; }
+  .aarr { @apply text-2xl text-blue-400 font-bold; }
+  
+  .qitem { @apply bg-white border border-slate-200 rounded-2xl p-6 my-4 shadow-sm; }
+  .qq { @apply text-lg font-bold text-slate-900 mb-4; }
+  .qopts { @apply flex flex-col gap-2; }
+  .qopt { @apply p-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-700 cursor-pointer transition hover:border-blue-400 hover:bg-blue-50 text-left; }
+  .qopt.correct { @apply bg-emerald-50 border-emerald-400 text-emerald-700; }
+  .qopt.wrong { @apply bg-rose-50 border-rose-400 text-rose-700; }
+  
+  .link-box { @apply flex sm:items-center flex-col sm:flex-row gap-4 bg-slate-900 rounded-2xl p-6 my-6 shadow-md; }
+  .link-icon { @apply text-4xl; }
+  .link-title { @apply text-lg font-bold text-white mb-1; }
+  .link-url { @apply text-cyan-400 text-sm flex-wrap break-all hover:underline font-mono; }
+
+  /* Progress bar */
+  #pbar { @apply fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-300 rounded-r z-[1001]; }
+  
+  /* Slide scrollbar */
+  ::webkit-scrollbar { width: 8px; }
+  ::webkit-scrollbar-track { background: transparent; }
+  ::webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div id="pbar"></div>
+<div class="topnav"><div class="tnav-title"><h1>🧠 Probabilistic Models & Deep Learning</h1><p>Chapters 21 &amp; 22 — Week 11</p></div><div class="tnav-instructor">Taught by: <strong>Dr. Wasim Ahmad Khan</strong></div><div class="tnav-controls"><button class="tnav-btn" id="homeBtn">← Back to Home</button></div></div>
+<div class="slides-container"><div class="slides" id="slides">
+<div class="slide"><div class="cover"><div class="cbadge">Week 11 — Chapters 21 &amp; 22</div><h1>Learning Probabilistic Models & Deep Learning</h1><h2>Neural Networks and Representation Learning</h2><div class="cover-meta">Artificial Intelligence: A Modern Approach (4th Ed.)</div></div></div>
+<div class="slide"><h1>Learning Bayesian Networks and Graphical Models</h1><p><strong>Parameter learning</strong> estimates CPT values from data. <strong>Structure learning</strong> discovers network topology.</p><div class="box blue"><div class="blabel">Parameter Learning with Complete Data</div><p>Maximum Likelihood Estimation (MLE): θ = count(value) / count(parent values). Simple; assumes IID data.</p></div><h3>Incomplete Data and EM Algorithm</h3><div class="dlist"><div class="ditem"><div class="dlabel blue">E-Step</div><div class="ddesc">Compute expected counts using current parameters.</div></div><div class="ditem"><div class="dlabel blue">M-Step</div><div class="ddesc">Update parameters using expected counts.</div></div></div><h3>Structure Learning</h3><ul><li><strong>Score-based:</strong> BIC/MDL score trade-off fit vs. complexity; search over DAGs</li><li><strong>Constraint-based:</strong> CI tests identify independence; build structure from constraints</li></ul></div>
+<div class="slide"><h1>Neural Networks: Perceptrons and MLPs</h1><p><strong>Perceptrons</strong> single linear units; <strong>Multi-layer perceptrons (MLPs)</strong> composition via nonlinearities.</p><div class="box teal"><div class="blabel">Perceptron Learning</div><p>w ← w + α(y - h(x))x where h(x) = 1 if w·x > 0 else 0<br>Converges for linearly separable; fails otherwise.</p></div><h3>Neural Network Architecture</h3><ul><li><strong>Input layer:</strong> Feature vectors</li><li><strong>Hidden layers:</strong> Learned representations; nonlinear activations (ReLU, sigmoid, tanh)</li><li><strong>Output layer:</strong> Predictions; softmax for classification, linear for regression</li></ul><div class="box navy"><div class="blabel">Universal Approximation</div><p>MLPs with hidden layer can approximate any continuous function (given enough neurons).</p></div></div>
+<div class="slide"><h1>Backpropagation and Training</h1><p><strong>Backpropagation</strong> efficiently computes gradients via chain rule. Enables gradient descent on deep networks.</p><div class="box purple"><div class="blabel">Algorithm</div><p>1. Forward pass: compute activations<br>2. Compute loss<br>3. Backward pass: compute ∂L/∂w via chain rule<br>4. Update: w ← w - α∇L</p></div><h3>Optimization Techniques</h3><div class="cgrid"><div class="card"><div class="cico">📊</div><h3>SGD</h3><p>Stochastic gradient descent; noisy updates; escapes shallow local minima.</p></div><div class="card"><div class="cico">⚡</div><h3>Momentum</h3><p>Accumulate gradients; faster convergence; reduces oscillation.</p></div><div class="card"><div class="cico">🎯</div><h3>Adam</h3><p>Adaptive learning rates per parameter. Works well in practice.</p></div></div><h3>Challenges</h3><ul><li><strong>Vanishing/Exploding Gradients:</strong> Deep networks suffer. Solutions: careful initialization, batch norm, skip connections</li></ul></div>
+<div class="slide"><h1>Convolutional Neural Networks (CNNs)</h1><p><strong>CNNs</strong> exploit spatial structure via local connectivity, weight sharing, pooling. Dominant for image tasks.</p><div class="box blue"><div class="blabel">Key Operations</div><p>• <strong>Convolution:</strong> Learned filters detect local patterns (edges, textures)<br>• <strong>Pooling:</strong> Reduce spatial dims; aggregate (max, average)<br>• <strong>Fully Connected:</strong> Final classification layers</p></div><h3>Architecture Patterns</h3><ul><li><strong>LeNet:</strong> Digit recognition; foundational CNN</li><li><strong>AlexNet:</strong> Large-scale image classification; breakthrough with GPUs (2012)</li><li><strong>ResNet:</strong> Skip connections enable very deep networks (&gt;100 layers)</li><li><strong>Inception/DenseNet:</strong> Multi-scale features; efficient designs</li></ul></div>
+<div class="slide"><h1>Recurrent Neural Networks (RNNs) and Sequence Modeling</h1><p><strong>RNNs</strong> process sequences via recurrence: h_t = f(x_t, h_{t-1}). Memory of past inputs.</p><h3>RNN Variants</h3><div class="dlist"><div class="ditem"><div class="dlabel teal">LSTM (Long Short-Term Memory)</div><div class="ddesc">Gating mechanisms: forget, input, output gates. Solves vanishing gradient for long sequences.</div></div><div class="ditem"><div class="dlabel teal">GRU (Gated Recurrent Unit)</div><div class="ddesc">Simplified LSTM; fewer parameters; comparable performance.</div></div></div><h3>Applications</h3><ul><li><strong>Language Modeling:</strong> P(next word | previous words)</li><li><strong>Machine Translation:</strong> Seq2seq: encoder-decoder with attention</li><li><strong>Speech Recognition:</strong> Acoustic modeling with RNNs</li></ul></div>
+<div class="slide"><h1>Attention and Transformer Architecture</h1><p><strong>Attention</strong> enables models to focus on relevant inputs. <strong>Transformers</strong> stack attention without recurrence.</p><div class="box green"><div class="blabel">Self-Attention</div><p>Compute weighted combinations of values based on query-key similarity. Learns what to attend to.</p></div><h3>Transformer Components</h3><ul><li><strong>Multi-head attention:</strong> Multiple representation subspaces</li><li><strong>Positional encoding:</strong> Inject sequence order (no recurrence)</li><li><strong>Feed-forward networks:</strong> Pointwise MLPs per position</li><li><strong>Layer norm + residuals:</strong> Stabilize deep stacking</li></ul><div class="box navy"><div class="blabel">Impact</div><p>BERT, GPT, T5: transformers dominate NLP. Parallelizable; better for long sequences than RNNs.</p></div></div>
+<div class="slide"><h1>Generative Models and Adversarial Training</h1><p><strong>Generative models</strong> learn p(x); useful for generation, density estimation, semi-supervised learning.</p><h3>Generative Approaches</h3><div class="dlist"><div class="ditem"><div class="dlabel coral">VAE (Variational Autoencoder)</div><div class="ddesc">Probabilistic encoder-decoder. Latent code; reconstruct via gradient-based inference.</div></div><div class="ditem"><div class="dlabel coral">GAN (Generative Adversarial Network)</div><div class="ddesc">Generator vs. Discriminator game. Generator learns to fool discriminator.</div></div><div class="ditem"><div class="dlabel coral">Diffusion Models</div><div class="ddesc">Learn to reverse noise addition. State-of-art image generation; stable training.</div></div></div><h3>Training Dynamics</h3><ul><li><strong>GANs:</strong> Minimax game; tricky balance; mode collapse issues</li><li><strong>VAEs:</strong> ELBO optimization; stable; sometimes blurry outputs</li></ul></div>
+<div class="slide"><h1>Regularization and Generalization</h1><p><strong>Regularization</strong> prevents overfitting; <strong>generalization</strong> good test performance.</p><h3>Techniques</h3><div class="cgrid"><div class="card"><div class="cico">💧</div><h3>Dropout</h3><p>Randomly deactivate neurons during training. Ensemble-like; prevents co-adaptation.</p></div><div class="card"><div class="cico">📦</div><h3>Batch Norm</h3><p>Normalize activations. Stabilizes training; allows higher learning rates.</p></div><div class="card"><div class="cico">📈</div><h3>Data Augmentation</h3><p>Transform inputs (rotation, crop, etc.). Increases effective dataset size.</p></div><div class="card"><div class="cico">⚖️</div><h3>L1/L2 Regularization</h3><p>Penalize large weights. Controls capacity.</p></div></div></div>
+<div class="slide"><h1>Summary: Probabilistic Models & Deep Learning</h1><div class="tcol"><div class="box blue"><div class="blabel">Probabilistic Models</div><p>• Bayesian networks: structure + parameter learning<br>• EM algorithm for incomplete data<br>• Graphical models capture dependencies</p></div><div class="box blue"><div class="blabel">Deep Learning</div><p>• MLPs: universal approximators<br>• CNNs: image processing<br>• RNNs/Transformers: sequences<br>• Generative: VAEs, GANs, diffusion</p></div></div><div class="box green"><div class="blabel">Next Week</div><p>Reinforcement Learning & NLP — learning from interactions and language understanding.</p></div></div></div>
+<div class="botnav">
+  <button class="bn-btn" id="prevBtn" onclick="prevSlide()">← Previous</button>
+  <div class="bn-progress"><span id="slideCount">1</span> / 8</div>
+  <button class="bn-btn" id="nextBtn" onclick="nextSlide()">Next →</button>
+</div>
+<script>const slides = document.querySelectorAll('.slide');let currentSlide = 0;const totalSlides = slides.length;function updateUI(){const slides_el = document.getElementById('slides');slides_el.style.transform = `translateX(-${currentSlide * 100}%)`;document.getElementById('slideCount').textContent = currentSlide + 1;document.getElementById('prevBtn').disabled = currentSlide === 0;document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;const pbar = document.getElementById('pbar');pbar.style.width = ((currentSlide + 1) / totalSlides * 100) + '%';}function nextSlide() { if(currentSlide < totalSlides - 1) { currentSlide++; updateUI(); } }function prevSlide() { if(currentSlide > 0) { currentSlide--; updateUI(); } }document.addEventListener('keydown', e => {if(e.key === 'ArrowRight' || e.key === ' ') nextSlide();if(e.key === 'ArrowLeft') prevSlide();});document.getElementById('homeBtn').onclick = () => window.location.href = 'index.html';updateUI();</script>
+</body>
+</html>
