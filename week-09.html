@@ -8,22 +8,22 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <style type="text/tailwindcss">
   body { @apply bg-slate-50 text-slate-800 font-['Nunito'] overflow-hidden h-screen antialiased; }
-  .topnav { @apply fixed top-0 left-0 right-0 h-14 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-5 z-50; }
-  .tnav-title h1 { @apply text-lg font-extrabold text-slate-900 leading-none tracking-tight; }
-  .tnav-title p { @apply text-xs text-slate-500 font-bold mt-1 uppercase tracking-wider; }
+  .topnav { @apply fixed top-0 left-0 right-0 h-14 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-3 md:px-5 z-50; }
+  .tnav-title h1 { @apply text-base md:text-lg font-extrabold text-slate-900 leading-none tracking-tight truncate max-w-[150px] sm:max-w-none; }
+  .tnav-title p { @apply text-[10px] md:text-xs text-slate-500 font-bold mt-1 uppercase tracking-wider truncate max-w-[150px] sm:max-w-none; }
   .tnav-instructor { @apply text-sm font-bold text-slate-700 hidden md:block; }
-  .tnav-btn { @apply bg-white border border-slate-200 rounded-lg px-4 py-2 text-sm font-bold text-slate-700 cursor-pointer transition flex items-center gap-2 hover:bg-slate-50 hover:shadow-sm; }
+  .tnav-btn { @apply bg-white border border-slate-200 rounded-lg px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-bold text-slate-700 cursor-pointer transition flex items-center gap-2 hover:bg-slate-50 hover:shadow-sm; }
   
   .slides-container { @apply fixed top-14 left-0 right-0 bottom-14 overflow-hidden bg-slate-50/50; }
   .slides { @apply flex w-full h-full transition-transform duration-300 ease-in-out; }
   .slide { @apply w-full h-full shrink-0 overflow-y-auto px-6 py-8 md:px-12 md:py-10; }
-  .slide h1 { @apply text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight leading-tight; }
-  .slide h2 { @apply text-2xl md:text-3xl font-extrabold text-slate-800 mt-10 mb-5 tracking-tight; }
-  .slide h3 { @apply text-xl font-bold text-slate-700 mt-6 mb-3; }
-  .slide p { @apply text-base text-slate-600 leading-relaxed mb-4; }
-  .slide ul { @apply list-disc list-outside pl-6 space-y-2 mb-6 text-slate-600; }
+  .slide h1 { @apply text-2xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight leading-tight; }
+  .slide h2 { @apply text-xl md:text-3xl font-extrabold text-slate-800 mt-10 mb-5 tracking-tight; }
+  .slide h3 { @apply text-lg sm:text-xl font-bold text-slate-700 mt-6 mb-3; }
+  .slide p { @apply text-sm sm:text-base text-slate-600 leading-relaxed mb-4; }
+  .slide ul { @apply list-disc list-outside pl-6 space-y-2 mb-6 text-sm sm:text-base text-slate-600; }
   
-  .box { @apply rounded-2xl p-5 my-5 border-l-4 shadow-sm bg-white; }
+  .box { @apply rounded-2xl p-4 sm:p-5 my-5 border-l-4 shadow-sm bg-white; }
   .box.blue { @apply border-blue-500 bg-blue-50/50; }
   .box.teal { @apply border-teal-500 bg-teal-50/50; }
   .box.coral { @apply border-rose-500 bg-rose-50/50; }
@@ -39,12 +39,12 @@
   .box.green .blabel { @apply text-emerald-600; }
   
   .cgrid { @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-6; }
-  .card { @apply bg-white border border-slate-100 rounded-2xl p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md; }
+  .card { @apply bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md; }
   .cico { @apply text-3xl mb-3 block; }
-  .card h3 { @apply text-lg font-bold text-slate-900 mb-2; }
-  .card p { @apply text-sm text-slate-500 leading-relaxed max-w-full break-words; }
+  .card h3 { @apply text-base sm:text-lg font-bold text-slate-900 mb-2; }
+  .card p { @apply text-xs sm:text-sm text-slate-500 leading-relaxed max-w-full break-words; }
   
-  .tbl { @apply w-full border-collapse my-6 text-sm rounded-xl overflow-hidden shadow-sm border border-slate-200 bg-white; }
+  .tbl { @apply block w-full overflow-x-auto whitespace-nowrap md:table md:whitespace-normal border-collapse my-6 text-sm rounded-xl shadow-sm border border-slate-200 bg-white; }
   .tbl th { @apply bg-slate-900 text-white text-xs font-bold uppercase tracking-wider px-4 py-3 text-left; }
   .tbl td { @apply px-4 py-3 border-b border-slate-100 text-slate-600 align-top; }
   
@@ -56,9 +56,9 @@
   .tag.g { @apply bg-emerald-100 text-emerald-700; }
   .tag.a { @apply bg-amber-100 text-amber-700; }
   
-  .botnav { @apply fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-slate-200 flex items-center justify-between px-8 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]; }
-  .bn-btn { @apply bg-white border border-slate-200 rounded-xl px-6 py-2.5 text-sm font-bold text-slate-700 cursor-pointer transition-all hover:bg-slate-50 hover:border-slate-300 hover:shadow-sm active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100; }
-  .bn-progress { @apply text-sm font-black text-slate-500 tracking-widest tabular-nums; }
+  .botnav { @apply fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-slate-200 flex items-center justify-between px-3 sm:px-8 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]; }
+  .bn-btn { @apply bg-white border border-slate-200 rounded-xl px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-bold text-slate-700 cursor-pointer transition-all hover:bg-slate-50 hover:border-slate-300 hover:shadow-sm active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100; }
+  .bn-progress { @apply hidden sm:block text-sm font-black text-slate-500 tracking-widest tabular-nums; }
 
 
   .dlist { @apply flex flex-col gap-3 my-4; }
