@@ -58,7 +58,7 @@
   
   .botnav { @apply fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-slate-200 flex items-center justify-between px-3 sm:px-8 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]; }
   .bn-btn { @apply bg-white border border-slate-200 rounded-xl px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-bold text-slate-700 cursor-pointer transition-all hover:bg-slate-50 hover:border-slate-300 hover:shadow-sm active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100; }
-  .bn-progress { @apply hidden sm:block text-sm font-black text-slate-500 tracking-widest tabular-nums; }
+  .bn-progress { @apply block text-sm font-black text-slate-500 tracking-widest tabular-nums; }
 
 
   .dlist { @apply flex flex-col gap-3 my-4; }
@@ -102,7 +102,7 @@
 </head>
 <body>
 <div id="pbar"></div>
-<div class="topnav"><div class="tnav-title"><h1>🧠 Probabilistic Models & Deep Learning</h1><p>Chapters 21 &amp; 22 — Week 11</p></div><div class="tnav-instructor">Taught by: <strong>Dr. Wasim Ahmad Khan</strong></div><div class="tnav-controls"><button class="tnav-btn" id="homeBtn">← Back to Home</button></div></div>
+<div class="topnav"><div class="tnav-title"><h1>🧠 Probabilistic Models & Deep Learning</h1><p>Chapters 21 &amp; 22 — Week 11</p></div><div class="tnav-instructor">Taught by: <strong>Dr. Wasim Ahmad Khan</strong></div><div class="tnav-controls"><button class="tnav-btn" id="homeBtn" onclick="window.location.href='index.html'">← Back to Home</button></div></div>
 <div class="slides-container"><div class="slides" id="slides">
 <div class="slide"><div class="cover"><div class="cbadge">Week 11 — Chapters 21 &amp; 22</div><h1>Learning Probabilistic Models & Deep Learning</h1><h2>Neural Networks and Representation Learning</h2><div class="cover-meta">Artificial Intelligence: A Modern Approach (4th Ed.)</div></div></div>
 <div class="slide"><h1>Learning Bayesian Networks and Graphical Models</h1><p><strong>Parameter learning</strong> estimates CPT values from data. <strong>Structure learning</strong> discovers network topology.</p><div class="box blue"><div class="blabel">Parameter Learning with Complete Data</div><p>Maximum Likelihood Estimation (MLE): θ = count(value) / count(parent values). Simple; assumes IID data.</p></div><h3>Incomplete Data and EM Algorithm</h3><div class="dlist"><div class="ditem"><div class="dlabel blue">E-Step</div><div class="ddesc">Compute expected counts using current parameters.</div></div><div class="ditem"><div class="dlabel blue">M-Step</div><div class="ddesc">Update parameters using expected counts.</div></div></div><h3>Structure Learning</h3><ul><li><strong>Score-based:</strong> BIC/MDL score trade-off fit vs. complexity; search over DAGs</li><li><strong>Constraint-based:</strong> CI tests identify independence; build structure from constraints</li></ul></div>

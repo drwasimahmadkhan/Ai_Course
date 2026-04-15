@@ -58,7 +58,7 @@
   
   .botnav { @apply fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-slate-200 flex items-center justify-between px-3 sm:px-8 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]; }
   .bn-btn { @apply bg-white border border-slate-200 rounded-xl px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-bold text-slate-700 cursor-pointer transition-all hover:bg-slate-50 hover:border-slate-300 hover:shadow-sm active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100; }
-  .bn-progress { @apply hidden sm:block text-sm font-black text-slate-500 tracking-widest tabular-nums; }
+  .bn-progress { @apply block text-sm font-black text-slate-500 tracking-widest tabular-nums; }
 
 
   .dlist { @apply flex flex-col gap-3 my-4; }
@@ -102,7 +102,7 @@
 </head>
 <body>
 <div id="pbar"></div>
-<div class="topnav"><div class="tnav-title"><h1>🚀 The Future of AI</h1><p>Chapter 29 — Week 15</p></div><div class="tnav-instructor">Taught by: <strong>Dr. Wasim Ahmad Khan</strong></div><div class="tnav-controls"><button class="tnav-btn" id="homeBtn">← Back to Home</button></div></div>
+<div class="topnav"><div class="tnav-title"><h1>🚀 The Future of AI</h1><p>Chapter 29 — Week 15</p></div><div class="tnav-instructor">Taught by: <strong>Dr. Wasim Ahmad Khan</strong></div><div class="tnav-controls"><button class="tnav-btn" id="homeBtn" onclick="window.location.href='index.html'">← Back to Home</button></div></div>
 <div class="slides-container"><div class="slides" id="slides">
 <div class="slide"><div class="cover"><div class="cbadge">Week 15 — Chapter 29</div><h1>The Future of AI</h1><h2>Emerging Trends and Long-Term Perspectives</h2></div></div>
 <div class="slide"><h1>Progress and Capabilities of Modern AI</h1><p><strong>AI systems</strong> now surpass humans in narrow domains: chess, Go, image recognition, game playing.</p><h3>Milestones</h3><ul><li><strong>1997:</strong> Deep Blue beats Kasparov at chess. Brute force + evaluation.</li><li><strong>2016:</strong> AlphaGo defeats Lee Sedol at Go. RL + MCTS + deep nets.</li><li><strong>2018-2024:</strong> Large language models. BERT, GPT-3/4, Claude, Gemini. Few-shot learning; instruction following.</li><li><strong>2024:</strong> Multimodal models. Vision-language, video understanding, embodied agents.</li></ul><h3>Current Limitations</h3><ul><li><strong>Brittleness:</strong> Fail on slight distribution shifts</li><li><strong>Data Hunger:</strong> Require massive labeled datasets</li><li><strong>Interpretability:</strong> Black box decisions hard to explain</li><li><strong>Common Sense:</strong> Lack human-like reasoning about world</li></ul></div>

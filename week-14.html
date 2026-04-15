@@ -58,7 +58,7 @@
   
   .botnav { @apply fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-slate-200 flex items-center justify-between px-3 sm:px-8 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]; }
   .bn-btn { @apply bg-white border border-slate-200 rounded-xl px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-bold text-slate-700 cursor-pointer transition-all hover:bg-slate-50 hover:border-slate-300 hover:shadow-sm active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100; }
-  .bn-progress { @apply hidden sm:block text-sm font-black text-slate-500 tracking-widest tabular-nums; }
+  .bn-progress { @apply block text-sm font-black text-slate-500 tracking-widest tabular-nums; }
 
 
   .dlist { @apply flex flex-col gap-3 my-4; }
@@ -102,7 +102,7 @@
 </head>
 <body>
 <div id="pbar"></div>
-<div class="topnav"><div class="tnav-title"><h1>📸 Computer Vision & Ethics in AI</h1><p>Chapters 27 & 28 — Week 14</p></div><div class="tnav-instructor">Taught by: <strong>Dr. Wasim Ahmad Khan</strong></div><div class="tnav-controls"><button class="tnav-btn" id="homeBtn">← Back to Home</button></div></div>
+<div class="topnav"><div class="tnav-title"><h1>📸 Computer Vision & Ethics in AI</h1><p>Chapters 27 & 28 — Week 14</p></div><div class="tnav-instructor">Taught by: <strong>Dr. Wasim Ahmad Khan</strong></div><div class="tnav-controls"><button class="tnav-btn" id="homeBtn" onclick="window.location.href='index.html'">← Back to Home</button></div></div>
 <div class="slides-container"><div class="slides" id="slides">
 <div class="slide"><div class="cover"><div class="cbadge">Week 14 — Chapters 27 & 28</div><h1>Computer Vision & Ethics</h1><h2>Image Understanding and Responsible AI</h2></div></div>
 <div class="slide"><h1>Image Classification and Recognition</h1><p><strong>Image classification</strong> assigns labels to images. <strong>Deep CNNs</strong> learn hierarchical visual features.</p><div class="box blue"><div class="blabel">CNN Architectures</div><p>AlexNet (breakthrough 2012) → VGG (depth) → ResNet (skip connections) → EfficientNet (scalable)</p></div><h3>Key Techniques</h3><ul><li><strong>Data Augmentation:</strong> Rotation, crop, color jitter. Prevents overfitting.</li><li><strong>Transfer Learning:</strong> Pre-train on ImageNet; fine-tune on target task.</li><li><strong>Ensemble:</strong> Combine multiple models for robustness.</li></ul><div class="tag b">Accuracy</div> Modern CNNs exceed human performance on ImageNet (~98%).</p></div>
